@@ -3,8 +3,8 @@ public class Matiashchuk {
 	private static int age;
 
 	public Matiashchuk(String name, int age) {
-		this.name = name;
-		this.age = age;
+		Matiashchuk.name = name;
+		Matiashchuk.age = age;
 	}
 
 	public String getName() {
@@ -16,10 +16,10 @@ public class Matiashchuk {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		Matiashchuk.name = name;
 	}
 
 	public void setAge(int age) {
-		this.age = age;
+		Matiashchuk.age = age;
 	}
 }
