@@ -1,6 +1,6 @@
 public class Matiashchuk {
-	String name;
-	int age;
+	private static String name;
+	private static int age;
 
 	public Matiashchuk(String name, int age) {
 		this.name = name;
