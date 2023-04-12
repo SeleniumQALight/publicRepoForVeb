@@ -1,6 +1,7 @@
 package apiTests;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 import api.dto.AuthorDto;
 import api.dto.PostDto;
@@ -116,5 +117,18 @@ public class ApiTests {
 
     }
 
+    //check type of fields
+    @Test
+    public void getAllPostsByUserSchema(){
+        given()
+            .contentType(ContentType.JSON)
+            .log().all()
+            .when()
+            .get(EndPoints.POST_BY_USER, USER_NAME)
+            .then()
+            .statusCode(200)
+            .log().all()
+            .assertThat().body(matchesJsonSchemaInClasspath("response.json"));
+    }
 
 }
