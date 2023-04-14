@@ -9,6 +9,7 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 public class PrivatApiTests {
 
@@ -64,5 +65,19 @@ public class PrivatApiTests {
                         "exchangeRate.saleRate", "exchangeRate.purchaseRate")
                 .isEqualTo(expectedResult);
         softAssertions.assertAll();
+    }
+
+    @Test
+    public void getAllPostsSchema(){
+        given()
+                .contentType(ContentType.JSON)
+                .queryParam("date", "22.03.2022")
+                .log().all()
+                .when()
+                .get(PrivatEndPoints.POST)
+                .then()
+                .statusCode(200)
+                .log().all()
+                .assertThat().body(matchesJsonSchemaInClasspath("privatResponse.json"));
     }
 }
