@@ -75,7 +75,7 @@
         <directory>src</directory>
       </resource>
       <resource>
-        <directory>src/test/resources</directory>
+        <directory>src/main/java/resources</directory>
       </resource>
     </resources>
   </build>
