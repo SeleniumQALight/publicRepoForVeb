@@ -8,6 +8,9 @@ import io.restassured.response.Response;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 
+import java.util.List;
+import java.util.Map;
+
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
@@ -79,5 +82,45 @@ public class PrivatApiTests {
                 .statusCode(200)
                 .log().all()
                 .assertThat().body(matchesJsonSchemaInClasspath("privatResponse.json"));
+    }
+
+    @Test
+    public void checkAllRateFieldGreaterThanZero(){
+        Response privatDtoResponse =
+                given()
+                        .contentType(ContentType.JSON)
+                        .queryParam("date", "22.03.2022")
+                        .log().all()
+                        .when()
+                        .get(PrivatEndPoints.POST)
+                        .then()
+                        .statusCode(200)
+                        .log().all()
+                        .extract().response();
+
+        SoftAssertions softAssertions = new SoftAssertions();
+        List<Map> actualExchangeRateList = privatDtoResponse.jsonPath().getList("exchangeRate", Map.class);
+        for (int i = 0; i < actualExchangeRateList.size(); i++) {
+            softAssertions.assertThat(actualExchangeRateList.get(i).get("saleRateNB"))
+                    .as("Item number " + i).asString().isGreaterThan(String.valueOf(0));
+        }
+        for (int i = 0; i < actualExchangeRateList.size(); i++) {
+            softAssertions.assertThat(actualExchangeRateList.get(i).get("purchaseRateNB"))
+                    .as("Item number " + i).asString().isGreaterThan(String.valueOf(0));
+        }
+
+        for (int i = 0; i < actualExchangeRateList.size(); i++) {
+            if(actualExchangeRateList.get(i).containsValue("salesRate")) {
+                softAssertions.assertThat(actualExchangeRateList.get(i).get("saleRate"))
+                        .as("Item number " + i).asString().isGreaterThan(String.valueOf(0));
+            }
+        }
+        for (int i = 0; i < actualExchangeRateList.size(); i++) {
+            if(actualExchangeRateList.get(i).containsValue("salesRate")) {
+                softAssertions.assertThat(actualExchangeRateList.get(i).get("purchaseRate"))
+                        .as("Item number " + i).asString().isGreaterThan(String.valueOf(0));
+            }
+        }
+        softAssertions.assertAll();
     }
 }
