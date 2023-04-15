@@ -36,7 +36,7 @@ public class ApiTests {
 		logger.info("Title = " + postDtoResponse[0].getTitle());
 		logger.info("User Name [0] = " + postDtoResponse[0].getAuthor().getUsername());
 		for (int i = 0; i < postDtoResponse.length; i++) {
-			Assert.assertEquals("UserNAme is not matched in post" + i
+			Assert.assertEquals("UserName is not matched in post" + i
 					, USER_NAME, postDtoResponse[i].getAuthor().getUsername());
 		}
 
