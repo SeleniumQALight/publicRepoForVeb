@@ -27,38 +27,38 @@ public class PbApiTests {
 				.statusCode(200)
 				.log().all()
 				.extract().response().as(PbDto.class);
-
-		List<PbExchangeDto> listExchangeRates = List.of(
-				PbExchangeDto.builder().baseCurrency("UAH").currency("AUD").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("AZN").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("BYN").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("CAD").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("CHF").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("CNY").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("CZK").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("DKK").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("EUR").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("GBP").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("GEL").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("HUF").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("ILS").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("JPY").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("KZT").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("MDL").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("NOK").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("PLN").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("SEK").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("SGD").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("TMT").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("TRY").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("UAH").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("USD").build(),
-				PbExchangeDto.builder().baseCurrency("UAH").currency("UZS").build()
-		);
-
+		
 		PbDto expectedResult =
 				PbDto.builder().date(DATE).bank("PB").baseCurrency(980).baseCurrencyLit("UAH")
-						.exchangeRate(listExchangeRates)
+						.exchangeRate(
+								List.of(
+										PbExchangeDto.builder().baseCurrency("UAH").currency("AUD").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("AZN").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("BYN").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("CAD").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("CHF").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("CNY").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("CZK").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("DKK").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("EUR").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("GBP").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("GEL").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("HUF").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("ILS").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("JPY").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("KZT").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("MDL").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("NOK").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("PLN").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("SEK").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("SGD").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("TMT").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("TRY").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("UAH").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("USD").build(),
+										PbExchangeDto.builder().baseCurrency("UAH").currency("UZS").build()
+								)
+						)
 						.build();
 
 		SoftAssertions softAssertions = new SoftAssertions();
