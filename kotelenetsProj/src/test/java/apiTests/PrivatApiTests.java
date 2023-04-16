@@ -15,13 +15,14 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 public class PrivatApiTests {
+    String DATE = "22.03.2022";
 
     @Test
     public void getAllPostsTest(){
         PrivatDto privatDtoResponse =
                 given()
                         .contentType(ContentType.JSON)
-                        .queryParam("date", "22.03.2022")
+                        .queryParam("date", DATE)
                         .log().all()
                         .when()
                         .get(PrivatEndPoints.POST)
@@ -61,7 +62,6 @@ public class PrivatApiTests {
         PrivatDto expectedResult = PrivatDto.builder().date("22.03.2022").bank("PB").baseCurrency(980)
                 .baseCurrencyLit("UAH").exchangeRate(expectedExchangeRate)
                 .build();
-
         SoftAssertions softAssertions = new SoftAssertions();
         softAssertions.assertThat(privatDtoResponse).usingRecursiveComparison()
                 .ignoringFields("exchangeRate.saleRateNB", "exchangeRate.purchaseRateNB",
@@ -74,7 +74,7 @@ public class PrivatApiTests {
     public void getAllPostsSchema(){
         given()
                 .contentType(ContentType.JSON)
-                .queryParam("date", "22.03.2022")
+                .queryParam("date", DATE)
                 .log().all()
                 .when()
                 .get(PrivatEndPoints.POST)
@@ -89,7 +89,7 @@ public class PrivatApiTests {
         Response privatDtoResponse =
                 given()
                         .contentType(ContentType.JSON)
-                        .queryParam("date", "22.03.2022")
+                        .queryParam("date", DATE)
                         .log().all()
                         .when()
                         .get(PrivatEndPoints.POST)
@@ -103,20 +103,13 @@ public class PrivatApiTests {
         for (int i = 0; i < actualExchangeRateList.size(); i++) {
             softAssertions.assertThat(actualExchangeRateList.get(i).get("saleRateNB"))
                     .as("Item number " + i).asString().isGreaterThan(String.valueOf(0));
-        }
-        for (int i = 0; i < actualExchangeRateList.size(); i++) {
             softAssertions.assertThat(actualExchangeRateList.get(i).get("purchaseRateNB"))
                     .as("Item number " + i).asString().isGreaterThan(String.valueOf(0));
-        }
-
-        for (int i = 0; i < actualExchangeRateList.size(); i++) {
             if(actualExchangeRateList.get(i).containsValue("salesRate")) {
                 softAssertions.assertThat(actualExchangeRateList.get(i).get("saleRate"))
                         .as("Item number " + i).asString().isGreaterThan(String.valueOf(0));
             }
-        }
-        for (int i = 0; i < actualExchangeRateList.size(); i++) {
-            if(actualExchangeRateList.get(i).containsValue("salesRate")) {
+            if(actualExchangeRateList.get(i).containsValue("purchaseRate")) {
                 softAssertions.assertThat(actualExchangeRateList.get(i).get("purchaseRate"))
                         .as("Item number " + i).asString().isGreaterThan(String.valueOf(0));
             }
