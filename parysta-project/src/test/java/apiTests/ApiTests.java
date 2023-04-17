@@ -54,11 +54,24 @@ public class ApiTests {
                 ignoringFields("id", "createdDate", "author.avatar").
                 isEqualTo(expectedResult);
         softAssertions.assertAll();
-
-
-
-
     }
+
+    @Test
+    public void negativeGetAllPostsByUserTest(){
+        String actualResponse =
+                given().contentType(ContentType.JSON).
+                        log().all().when().
+                        get(EndPoints.POST_BY_USER, "NotValidUser").
+                        then().
+                        statusCode(200).
+                        log().all().
+                        extract().response().getBody().asString();
+
+        Assert.assertEquals("Message in response ",
+                "Sorry, invalid user requested.undefined", actualResponse.replace("\"", ""));
+    }
+
+
 
 
 
