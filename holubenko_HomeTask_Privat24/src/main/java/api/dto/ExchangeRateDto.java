@@ -14,4 +14,6 @@ import lombok.NoArgsConstructor;
 public class ExchangeRateDto {
     String baseCurrency;
     String currency;
+    Double saleRateNB;
+    Double purchaseRateNB;
 }
