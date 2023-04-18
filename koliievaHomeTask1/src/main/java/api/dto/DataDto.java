@@ -1,5 +1,6 @@
 package api.dto;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,5 +17,5 @@ public class DataDto {
     String bank;
     Integer baseCurrency;
     String baseCurrencyLit;
-    ExchangeRatesDto exchangeRate;
+    List<ExchangeRatesDto> exchangeRate;
 }

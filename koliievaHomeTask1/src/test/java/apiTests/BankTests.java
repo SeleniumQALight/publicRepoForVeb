@@ -6,20 +6,15 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 import api.dto.DataDto;
 import api.dto.ExchangeRatesDto;
 import api.endPoints.EndPoints;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.ContentType;
-import org.apache.log4j.Logger;
+import java.util.List;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class BankTests {
-    Logger logger = Logger.getLogger(getClass());
-
     @Test
     public void getAllData(){
-        DataDto[] dataDtoResponse = given()
+        DataDto dataDtoResponse = given()
             .contentType(ContentType.JSON)
             .queryParam("date", "22.03.2022")
             .log().all()
@@ -28,27 +23,47 @@ public class BankTests {
             .then()
             .statusCode(200)
             .log().all()
-            .extract().response().as(DataDto[].class)
+            .extract().response().as(DataDto.class)
         ;
 
-        DataDto[] expectedResult = {
-                DataDto.builder().date("22.03.2022").bank("PB").baseCurrency(980).baseCurrencyLit("UAH")
-                       .exchangeRate(ExchangeRatesDto.builder().baseCurrency("UAH").currency("AUD").build())
-                       .build(),
-                DataDto.builder().date("22.03.2022").bank("PB").baseCurrency(980).baseCurrencyLit("UAH")
-                       .exchangeRate(ExchangeRatesDto.builder().baseCurrency("UAH").currency("AZN").build())
-                    .build(),
-        };
+        DataDto expectedResult =
+            DataDto.builder().date("22.03.2022").bank("PB").baseCurrency(980).baseCurrencyLit("UAH")
+                   .exchangeRate(List.of(
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("AUD").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("AZN").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("BYN").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("CAD").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("CHF").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("CNY").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("CZK").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("DKK").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("EUR").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("GBP").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("GEL").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("HUF").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("ILS").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("JPY").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("KZT").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("MDL").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("NOK").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("PLN").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("SEK").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("SGD").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("TMT").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("TRY").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("UAH").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("USD").build(),
+                       ExchangeRatesDto.builder().baseCurrency("UAH").currency("UZS").build()
+                   )).build();
+
 
         SoftAssertions softAssertions = new SoftAssertions();
-        for (int i = 0; i < 2; i++) {
-            softAssertions.assertThat(dataDtoResponse[i])
+            softAssertions.assertThat(dataDtoResponse)
                           .usingRecursiveComparison()
                           .ignoringFields("exchangeRate.saleRateNB", "exchangeRate.purchaseRateNB",
                               "exchangeRate.saleRate", "exchangeRate.purchaseRate")
-                          .isEqualTo(expectedResult[i]);
-        }
-        softAssertions.assertAll();
+                          .isEqualTo(expectedResult);
+            softAssertions.assertAll();
     }
 
     @Test
@@ -68,7 +83,7 @@ public class BankTests {
 
     @Test
     public void allFieldsHaveRatesGreaterThanZero(){
-        ExchangeRatesDto[] exchangeRatesDtoResponse = given()
+        DataDto dataDtoResponse = given()
             .contentType(ContentType.JSON)
             .queryParam("date", "22.03.2022")
             .log().all()
@@ -77,16 +92,22 @@ public class BankTests {
             .then()
             .statusCode(200)
             .log().all()
-            .extract().response().as(ExchangeRatesDto[].class);
+            .extract().response().as(DataDto.class);
 
         SoftAssertions softAssertions = new SoftAssertions();
-
-//        for (int i = 0; i < exchangeRatesDtoResponse.length; i++) {
-//            softAssertions.assertThat(exchangeRatesDtoResponse[i].getSaleRateNB()).isGreaterThan(0);
-//            softAssertions.assertThat(exchangeRatesDtoResponse[i].getPurchaseRateNB()).isGreaterThan(0);
-//            softAssertions.assertThat(exchangeRatesDtoResponse[i].getSaleRate()).isGreaterThan(0);
-//            softAssertions.assertThat(exchangeRatesDtoResponse[i].getSaleRate()).isGreaterThan(0);
-//        }
+        for(int i=0; i<dataDtoResponse.getExchangeRate().size(); i++) {
+            softAssertions.assertThat(dataDtoResponse.getExchangeRate().get(i).getSaleRateNB()).isGreaterThan(0);
+            softAssertions.assertThat(dataDtoResponse.getExchangeRate().get(i).getPurchaseRateNB()).isGreaterThan(0);
+            if(dataDtoResponse.getExchangeRate().get(i).getSaleRate() == null)
+                continue; else {
+            softAssertions.assertThat(dataDtoResponse.getExchangeRate().get(i).getSaleRate()).isGreaterThan(0);
+                }
+            if(dataDtoResponse.getExchangeRate().get(i).getPurchaseRate() == null)
+                continue; else {
+                softAssertions.assertThat(dataDtoResponse.getExchangeRate().get(i).getPurchaseRate()).
+                              isGreaterThan(0);
+            }
+        }
         softAssertions.assertAll();
     }
 }
