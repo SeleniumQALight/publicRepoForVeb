@@ -99,14 +99,9 @@ public class BankTests {
             softAssertions.assertThat(dataDtoResponse.getExchangeRate().get(i).getSaleRateNB()).isGreaterThan(0);
             softAssertions.assertThat(dataDtoResponse.getExchangeRate().get(i).getPurchaseRateNB()).isGreaterThan(0);
             if(dataDtoResponse.getExchangeRate().get(i).getSaleRate() == null)
-                continue; else {
+                continue;
             softAssertions.assertThat(dataDtoResponse.getExchangeRate().get(i).getSaleRate()).isGreaterThan(0);
-                }
-            if(dataDtoResponse.getExchangeRate().get(i).getPurchaseRate() == null)
-                continue; else {
-                softAssertions.assertThat(dataDtoResponse.getExchangeRate().get(i).getPurchaseRate()).
-                              isGreaterThan(0);
-            }
+            softAssertions.assertThat(dataDtoResponse.getExchangeRate().get(i).getPurchaseRate()).isGreaterThan(0);
         }
         softAssertions.assertAll();
     }
