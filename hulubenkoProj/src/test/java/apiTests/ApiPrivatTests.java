@@ -3,6 +3,7 @@ package apiTests;
 import api.dto.ExchangeRateDto;
 import api.dto.PrivatDto;
 import api.endPoints.EndPoints;
+import api.endPoints.EndpointsPrivat;
 import io.restassured.http.ContentType;
 import org.apache.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
@@ -23,7 +24,7 @@ public class ApiPrivatTests {
                 .queryParam("date", "22.03.2022")
                 .log().all()
                 .when()
-                .get(EndPoints.POST_BY_BANK)
+                .get(EndpointsPrivat.POST_BY_BANK)
                 .then()
                 .statusCode(200)
                 .log().all()
@@ -88,7 +89,7 @@ public class ApiPrivatTests {
                 .queryParam("date", "22.03.2022")
                 .log().all()
                 .when()
-                .get(EndPoints.POST_BY_BANK)
+                .get(EndpointsPrivat.POST_BY_BANK)
                 .then()
                 .statusCode(200)
                 .log().all()
