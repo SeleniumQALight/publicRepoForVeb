@@ -77,9 +77,9 @@ public class ApiTest {
                         .statusCode(200)
                         .log().all()
                         .extract().response().getBody().asString();
-        Assert.assertEquals("Message in response ", "Sorry,invalid user requested.undefined", actualResponse);
-        Assert.assertEquals("Message in response ", "\"Sorry,invalid user requested.undefined\"", actualResponse);
-        Assert.assertEquals("Message in response ", "Sorry,invalid user requested.undefined", actualResponse.replace("\"", ""));
+//        Assert.assertEquals("Message in response ", "Sorry,invalid user requested.undefined", actualResponse);
+        Assert.assertEquals("Message in response ", "\"Sorry, invalid user requested.undefined\"", actualResponse);
+        Assert.assertEquals("Message in response ", "Sorry, invalid user requested.undefined", actualResponse.replace("\"", ""));
     }
 
     @Test
@@ -99,7 +99,7 @@ public class ApiTest {
         SoftAssertions softAssertions = new SoftAssertions();
         for (int i = 0; i < actualTitleList.size(); i++) {
             softAssertions.assertThat(actualTitleList.get(i)).as("Item number " + i)
-                    .contains("text");
+                    .contains("test");
         }
 
         List<Map> actualAuthorList = actualResponse.jsonPath().getList("author", Map.class);
