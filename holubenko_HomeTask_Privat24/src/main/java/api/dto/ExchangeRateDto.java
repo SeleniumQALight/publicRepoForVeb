@@ -1,4 +1,4 @@
-package api.dto;
+package api.endPoints;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;

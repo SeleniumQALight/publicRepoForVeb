@@ -1,7 +1,7 @@
 package apiTests;
 
-import api.dto.ExchangeRateDto;
-import api.dto.PrivatDto;
+import api.endPoints.ExchangeRateDto;
+import api.endPoints.PrivatDto;
 import api.endPoints.PrivatEndPoints;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;

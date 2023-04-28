@@ -1,15 +1,19 @@
-package api.endPoints;
+package dto;
 
 import lombok.*;
 
-@Data
+
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class PrivatDto {
+
+public class CurrencyExchangeDto {
     String date;
     String bank;
-    Integer baseCurrency;
+    int baseCurrency;
     String baseCurrencyLit;
     ExchangeRateDto[] exchangeRate;
+
 }

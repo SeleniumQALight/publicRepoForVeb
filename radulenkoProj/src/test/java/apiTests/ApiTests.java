@@ -3,8 +3,8 @@ package apiTests;
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
-import api.dto.AuthorDto;
-import api.dto.PostDto;
+import api.endPoints.AuthorDto;
+import api.endPoints.PostDto;
 import api.endPoints.EndPoints;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;

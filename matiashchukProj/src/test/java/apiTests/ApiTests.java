@@ -1,7 +1,7 @@
 package apiTests;
 
-import api.dto.AuthorDto;
-import api.dto.PostDto;
+import api.endPoints.AuthorDto;
+import api.endPoints.PostDto;
 import api.endpoints.EndPoints;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;

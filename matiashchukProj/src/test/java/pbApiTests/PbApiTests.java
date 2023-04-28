@@ -1,7 +1,7 @@
 package pbApiTests;
 
-import api.dto.PbDto;
-import api.dto.PbExchangeDto;
+import api.endPoints.PbDto;
+import api.endPoints.PbExchangeDto;
 import api.endpoints.PbEndPoints;
 import io.restassured.http.ContentType;
 import org.assertj.core.api.SoftAssertions;

@@ -1,7 +1,7 @@
 package apiTests;
 
-import api.dto.ExchangeRateDto;
-import api.dto.PrivatDto;
+import api.endPoints.ExchangeRateDto;
+import api.endPoints.PrivatDto;
 import api.endPoints.EndPoints;
 import io.restassured.http.ContentType;
 import org.apache.log4j.Logger;

@@ -1,4 +1,4 @@
-package api.dto;
+package api.endPoints;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

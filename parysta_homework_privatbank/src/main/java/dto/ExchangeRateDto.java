@@ -1,10 +1,13 @@
-package api.endPoints;
+package dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class ExchangeRateDto {
     String baseCurrency;
@@ -13,4 +16,5 @@ public class ExchangeRateDto {
     Double purchaseRateNB;
     Double saleRate;
     Double purchaseRate;
+
 }
