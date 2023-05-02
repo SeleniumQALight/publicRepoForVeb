@@ -1,19 +1,28 @@
 import dto.CurrencyExchangeDto;
 import dto.ExchangeRateDto;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
-import org.apache.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+
+
+import java.util.List;
+import java.util.Map;
 
 import static api.endPoints.EndPoints.GET_EXCHANGE_RATE_BY_DATE;
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 public class ApiTests {
-    Logger logger = Logger.getLogger(getClass());
+    private static SoftAssertions softAssertions;
+    @BeforeClass
+    public static void setUp() {
+        softAssertions = new SoftAssertions();
+    }
 
     @Test
     public void getExchangeRateByDate() {
@@ -60,7 +69,6 @@ public class ApiTests {
                         ExchangeRateDto.builder().baseCurrency("UAH").currency("UZS").build()
                 })
                 .build();
-        SoftAssertions softAssertions = new SoftAssertions();
         softAssertions.assertThat(currencyExchangeDto).usingRecursiveComparison().
                 ignoringFields("exchangeRate.saleRateNB", "exchangeRate.purchaseRateNB",
                         "exchangeRate.saleRate", "exchangeRate.purchaseRate").
@@ -71,7 +79,6 @@ public class ApiTests {
     @Test
     public void getExchangeRateByDateScheme() {
         given().
-                contentType(ContentType.JSON).
                 queryParam("date", "22.03.2022").
                 log().all().
                 when().
@@ -84,12 +91,34 @@ public class ApiTests {
     }
 
     @Test
-    public void getAllExchangeRatesWhichMoreThanZero(){
+    public void getAllExchangeRatesWhichMoreThanZero() {
+        Response actualResponse = given().
+                queryParam("date", "22.03.2022").
+                log().all().
+                when().
+                get(GET_EXCHANGE_RATE_BY_DATE).then().
+                statusCode(HttpStatus.SC_OK).
+                log().all().
+                extract().response();
 
+        checkExchangeRateField(actualResponse, "saleRateNB");
+        checkExchangeRateField(actualResponse, "purchaseRateNB");
+        checkExchangeRateField(actualResponse, "saleRate");
+        checkExchangeRateField(actualResponse, "purchaseRate");
 
+        softAssertions.assertAll();
+    }
+        private void checkExchangeRateField(Response response, String fieldName) {
+            List<Map> exchangeRates = getExchangeRates(response);
+            for (int i = 0; i < exchangeRates.size(); i++) {
+                softAssertions.assertThat(exchangeRates.get(i).get(fieldName)).
+                        as("Item number " + i + " - " + fieldName).isNotEqualTo(0);
+            }
+        }
+    private List<Map> getExchangeRates(Response response) {
+        return response.jsonPath().getList("exchangeRate", Map.class);
     }
 }
-
 
 
 

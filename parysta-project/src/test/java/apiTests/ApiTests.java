@@ -114,6 +114,7 @@ public class ApiTests {
                 statusCode(200).
                 log().all().
                 assertThat().body(matchesJsonSchemaInClasspath("response.json"));
+
     }
 
 }
